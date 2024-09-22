@@ -53,7 +53,7 @@ class PersonController
                 break;
 
             case "DELETE":
-                $rows = $this->gateway->delete($id);
+                $rows = $this->gateway->delete($id, $person);
 
                 echo json_encode([
                     "message" => "Person $id deleted",

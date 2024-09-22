@@ -13,6 +13,15 @@ class ImageUploader {
         $this->uploadOk = true;
     }
     
+    public function removeFile($path) {
+        try {
+            unlink($path);
+            echo $path . " removed";
+        } catch(Exception $ex) {
+            echo "file not removed: " . $path;
+        }
+    }
+
     public function uploadFile($file) {
 
         $this->targetFile = $this->targetDir . basename($file["name"]);
@@ -23,7 +32,6 @@ class ImageUploader {
         $this->checkFileExists();
 
         if (!file_exists($this->targetDir)) {
-
             mkdir($this->targetDir, 0777, true);
         }
         try {

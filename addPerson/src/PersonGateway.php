@@ -83,7 +83,8 @@ class PersonGateway
             $stmt->bindValue(":image_path", $image_path, PDO::PARAM_STR);
             
             echo $image_path;
-            //remove the old one
+            
+            $img->removeFile($current["image_path"]);
         } else {
             $stmt->bindValue(":image_path", $current["image_path"], PDO::PARAM_STR);
         }
@@ -95,7 +96,7 @@ class PersonGateway
         return $stmt->rowCount();
     }
 
-    public function delete(string $id): int
+    public function delete(string $id, array $person): int
     {
         $sql = "DELETE FROM members
                 WHERE id = :id";
@@ -103,6 +104,9 @@ class PersonGateway
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+        $img = new ImageUploader("");
+        $img->removeFile($person["image_path"]);
 
         $stmt->execute();
 
