@@ -65,18 +65,26 @@ class PersonGateway
 
     public function update(array $current, array $new): int
     {
-        //not supported
-        return 0;
-
-        $sql = "UPDATE product
-                SET name = :name, size = :size, is_available = :is_available
+        $sql = "UPDATE members
+                SET fname = :fname, second_name = :second_name, department = :department, descr = :descr, image_path = :image_path
                 WHERE id = :id";
 
         $stmt = $this->connection->prepare($sql);
 
-        $stmt->bindValue(":name", $new["name"] ?? $current["name"], PDO::PARAM_STR);
-        $stmt->bindValue(":size", $new["size"] ?? $current["size"], PDO::PARAM_INT);
-        $stmt->bindValue(":is_available", $new["is_available"] ?? $current["is_available"], PDO::PARAM_BOOL);
+        $stmt->bindValue(":fname", $new["fname"] ?? $current["fname"], PDO::PARAM_STR);
+        $stmt->bindValue(":second_name", $new["second_name"] ?? $current["second_name"], PDO::PARAM_STR);
+        $stmt->bindValue(":department", $new["department"] ?? $current["department"], PDO::PARAM_STR);
+        $stmt->bindValue(":descr", $new["descr"] ?? $current["descr"], PDO::PARAM_STR);
+
+        if($new["image_path"] != $current["image_path"]) {
+            $img = new ImageUploader("/zdjecia/members/");
+            $image_path = $img->uploadFile($_FILES["image"]);
+            $stmt->bindValue(":image_path", $image_path, PDO::PARAM_STR);
+            
+            //remove the old one
+        } else {
+            $stmt->bindValue(":image_path", $current["image_path"], PDO::PARAM_STR);
+        }
 
         $stmt->bindValue(":id", $current["id"], PDO::PARAM_INT);
 

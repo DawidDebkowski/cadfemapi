@@ -15,10 +15,15 @@ $personHandler = new PersonGateway($database);
 
 $personController = new PersonController($personHandler);
 
-$data = (array) json_decode(file_get_contents("php://input"), true);
-// $data = $_POST;
+$parts = explode("/", $_SERVER["REQUEST_URI"]);
 
-$personController->processRequest($_SERVER["REQUEST_METHOD"], "0");
+$id = $parts[array_key_last($parts)] ?? null;
+
+echo $id;
+
+exit();
+
+$personController->processRequest($_SERVER["REQUEST_METHOD"], $id);
 
 // $personHandler->create($data)
 

@@ -33,8 +33,9 @@ class PersonController
                 echo json_encode($person);
                 break;
 
-            case "PATCH":
-                $data = (array) json_decode(file_get_contents("php://input"), true);
+            case "POST": //thats a patch hidden in post because I cant use php//input (too hard :( )
+                $data = $_POST;
+
                 $errors = $this->getValidationErrors($data, false);
 
                 if (!empty($errors)) {
@@ -68,6 +69,7 @@ class PersonController
 
     private function processCollectionRequest(string $method): void
     {
+        header("Allow: GET, POST, PATCH");
         header("Access-Control-Allow-Origin: http://localhost:5173");
         switch ($method) {
             case "GET":
@@ -90,10 +92,13 @@ class PersonController
 
                 http_response_code(201);
                 echo json_encode([
-                    "message" => "Product created",
+                    "message" => "Member created",
                     "id" => $id
                 ]);
                 break;
+            case "OPTIONS":
+                http_response_code(200);
+                header("Allow: GET, POST, PATCH");
 
             default:
                 http_response_code(405);
