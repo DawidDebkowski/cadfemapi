@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: http://localhost:5173");
-header("Access-Control-Allow-Methods: POST, GET, PATCH, OPTIONS");
+header("Access-Control-Allow-Methods: POST, GET, PATCH, OPTIONS, DELETE");
 header("Allow: GET, PATCH, DELETE, POST, OPTIONS");
 
 spl_autoload_register(function ($class) {
@@ -13,7 +13,7 @@ header("Content-type: application/json; charset=UTF-8");
 
 if($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     http_response_code(200);
-    header("Access-Control-Allow-Methods: POST, GET, PATCH, OPTIONS");
+    header("Access-Control-Allow-Methods: POST, GET, PATCH, OPTIONS, DELETE");
     header("Allow: GET, PATCH, DELETE, POST, OPTIONS");
     exit();
 }

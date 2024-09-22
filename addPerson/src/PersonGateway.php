@@ -21,7 +21,7 @@ class PersonGateway
         $stmt->bindValue(":department", $data["department"], PDO::PARAM_STR);
         $stmt->bindValue(":descr", $data["descr"], PDO::PARAM_STR);
 
-        $img = new ImageUploader("/zdjecia/members/");
+        $img = new ImageUploader("../../zdjecia/members/");
         $image_path = $img->uploadFile($_FILES["image"]);
         $stmt->bindValue(":image_path", $image_path, PDO::PARAM_STR);
 
@@ -76,11 +76,13 @@ class PersonGateway
         $stmt->bindValue(":department", $new["department"] ?? $current["department"], PDO::PARAM_STR);
         $stmt->bindValue(":descr", $new["descr"] ?? $current["descr"], PDO::PARAM_STR);
 
+        echo json_encode($new);
         if($new["image_path"] != $current["image_path"]) {
-            $img = new ImageUploader("/zdjecia/members/");
+            $img = new ImageUploader("../../zdjecia/members/");
             $image_path = $img->uploadFile($_FILES["image"]);
             $stmt->bindValue(":image_path", $image_path, PDO::PARAM_STR);
             
+            echo $image_path;
             //remove the old one
         } else {
             $stmt->bindValue(":image_path", $current["image_path"], PDO::PARAM_STR);

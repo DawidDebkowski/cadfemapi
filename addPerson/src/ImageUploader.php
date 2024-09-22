@@ -24,7 +24,7 @@ class ImageUploader {
 
         if (!file_exists($this->targetDir)) {
 
-            mkdir($this->targetDir, 0777, true); // Ustaw odpowiednie uprawnienia (0777) i rekursywnie utwórz katalogi (true)
+            mkdir($this->targetDir, 0777, true);
         }
         try {
             if ($this->uploadOk) {
@@ -71,12 +71,4 @@ class ImageUploader {
         }
     }
 }
-
-// Przykład użycia:
-$uploader = new ImageUploader("uploads/");
-
-if (isset($_POST["submit"])) {
-    $uploader->uploadFile($_FILES["fileToUpload"]);
-}
-
 ?>
