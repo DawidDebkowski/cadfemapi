@@ -18,7 +18,9 @@ if($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     exit();
 }
 
-$database = new Database("localhost", "cadfem", "cadfem", "");
+$password = trim(file_get_contents(__DIR__ . '/password.txt'));
+
+$database = new Database("localhost", "cadfem", "cadfem", $password);
 
 $personHandler = new PersonGateway($database);
 
